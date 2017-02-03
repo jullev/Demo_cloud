@@ -1,6 +1,7 @@
 package com.cloud.demo.ajk_riset.demo_cloud;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,10 +23,11 @@ import Service.JSONParser;
  */
 
 public class LoginActivity extends AppCompatActivity {
-    EditText txtUsername,txtPassword;
-    Button Login,Clear;
+    EditText txtUsername, txtPassword;
+    Button Login, Clear;
     SharedPreferences pref;
-    String nama,pass;
+    String nama, pass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +42,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 nama = txtUsername.getText().toString();
                 pass = txtPassword.getText().toString();
-                if(nama.equals("admin") && pass.equals("admin")){
-                    Toast.makeText(LoginActivity.this,"Login Berhasil",Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(LoginActivity.this,"Login Gagal",Toast.LENGTH_LONG).show();
-                }
+                new LongOperation().execute("");
+
             }
         });
     }
@@ -53,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     private class LongOperation extends AsyncTask<String, Void, Void> {
 
         private ProgressDialog Dialog = new ProgressDialog(LoginActivity.this);
-        String jumlah, status, useroid;
+        boolean berhasil = false;
 
 
         protected void onPreExecute() {
@@ -67,43 +66,19 @@ public class LoginActivity extends AppCompatActivity {
 
         // Call after onPreExecute method
         protected Void doInBackground(String... urls) {
-
-
-            // Call long running operations here (perform background computation)
-            // NOTE: Don't call UI Element here.
-
-            // Server url call by GET method
-
-            JSONObject json = JSONParser.getJSONfromURL("http://agarwood.web.id/login.php?username=" + nama + "&password=" + pass);
-//            	JSONObject json = JSONFunctions.getJSONfromURL("http://192.168.137.1/AppsaniApp_new/login.php?username="+uname+"&password="+pass);
-            try {
+            JSONObject json = JSONParser.getJSONfromURL("http://10.10.1.8/login.php?username=" + nama + "&password=" + pass);
+     try {
 
                 JSONArray data = json.getJSONArray("data");
                 Log.e("Main Jumlah : ", "" + data.length());
 
-                if (data.length() >= 1) {
-//                    Cek(useroid);
-//                    berhasil();
-                    JSONObject jsonobj = data.getJSONObject(0);
+                if (data.length() >= 1) {JSONObject jsonobj = data.getJSONObject(0);
                     SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("username", jsonobj.getString("pengguna"));
-                    editor.putString("email", jsonobj.getString("email"));
-                    editor.putString("role", jsonobj.getString("jenis_pengguna"));
-                    editor.putString("id", jsonobj.getString("idm_pengguna"));
+                    editor.putString("username", jsonobj.getString("username"));
+                    editor.putString("id", jsonobj.getString("id"));
                     editor.commit();
                     //simpan pada database
-                    String id_pengguna = jsonobj.getString("idm_pengguna");
-                    String nama = jsonobj.getString("nama");
-                    String alamat = jsonobj.getString("alamat");
-                    String username = jsonobj.getString("pengguna");
-                    String pass = jsonobj.getString("password");
-                    String email = jsonobj.getString("email");
-                    String nohp = jsonobj.getString("no_hp");
-                    String keterangan = jsonobj.getString("keterangan");
-                    String role = jsonobj.getString("jenis_pengguna");
-                    useroid =role;
-                    Log.i("Data", id_pengguna + " " + nama + " " + alamat);
-
+                    berhasil = true;
                 } else {
 
                 }
@@ -120,6 +95,12 @@ public class LoginActivity extends AppCompatActivity {
 
             // Close progress dialog
             Dialog.dismiss();
+            if (berhasil) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(LoginActivity.this, "Tidak Berhasil Login", Toast.LENGTH_LONG).show();
+            }
 
         }
 

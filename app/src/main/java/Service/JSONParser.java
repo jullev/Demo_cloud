@@ -10,19 +10,19 @@ import org.json.JSONObject;
 /**
  * Created by AJK-Riset on 8/19/2016.
  */
-import android.content.SharedPreferences;
 import android.util.Log;
-        import org.json.JSONException;
 
-        import java.io.BufferedReader;
-        import java.io.InputStream;
-        import java.io.InputStreamReader;
+import org.json.JSONException;
 
-        import cz.msebera.android.httpclient.HttpEntity;
-        import cz.msebera.android.httpclient.HttpResponse;
-        import cz.msebera.android.httpclient.client.HttpClient;
-        import cz.msebera.android.httpclient.client.methods.HttpPost;
-        import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 
 public class JSONParser {
 
