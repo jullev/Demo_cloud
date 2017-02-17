@@ -66,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Call after onPreExecute method
         protected Void doInBackground(String... urls) {
-            JSONObject json = JSONParser.getJSONfromURL("http://10.10.1.8/login.php?username=" + nama + "&password=" + pass);
+            JSONObject json = JSONParser.getJSONfromURL("http://agarwood.web.id/test_login.php?username=" + nama + "&password=" + pass);
      try {
 
                 JSONArray data = json.getJSONArray("data");

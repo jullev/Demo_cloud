@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Call after onPreExecute method
         protected Void doInBackground(String... urls) {
-            JSONObject json = JSONParser.getJSONfromURL("http://10.10.1.8/data.php");
+            JSONObject json = JSONParser.getJSONfromURL("http://agarwood.web.id/data_test_login.php");
             try {
 
                 JSONArray data = json.getJSONArray("data");
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
     //insertdata
     public class DaftarBaru extends AsyncTask<String, Void, Void> {
         HttpClient httpclient = new DefaultHttpClient();
-        HttpPost httppost = new HttpPost("http://agarwood.web.id/insert_pesanan.php");
+        HttpPost httppost = new HttpPost("http://agarwood.web.id/insert_testlogin.php");
         //		HttpPost httppost = new HttpPost("http://192.168.137.1/AppsaniApp_new/update.php");
         private ProgressDialog Dialog = new ProgressDialog(MainActivity.this);
         String jumlah, status, useroid;
